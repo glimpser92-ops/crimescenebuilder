@@ -1,0 +1,4 @@
+interface:
+  display_name: "Crimescene Game Builder"
+  short_description: "Turn story files into playable mystery games"
+  default_prompt: "Use $crimescene-game-builder to turn this mystery story into a polished browser-based crimescene game."
