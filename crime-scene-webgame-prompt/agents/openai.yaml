@@ -1,0 +1,4 @@
+interface:
+  display_name: "Crime Scene Webgame Prompt"
+  short_description: "Turn mystery cases into webgame build prompts"
+  default_prompt: "Use $crime-scene-webgame-prompt to repair this mystery scenario and produce a web game build prompt."

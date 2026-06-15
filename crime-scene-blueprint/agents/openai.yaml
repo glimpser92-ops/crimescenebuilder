@@ -1,0 +1,4 @@
+interface:
+  display_name: "Crime Scene Blueprint"
+  short_description: "Design reusable mystery case blueprints"
+  default_prompt: "Use $crime-scene-blueprint to design a fair, reusable mystery game scenario from my premise."
