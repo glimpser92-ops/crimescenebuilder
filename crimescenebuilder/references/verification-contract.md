@@ -28,8 +28,10 @@ Smoke path:
 8. Try one known correct connection and verify insight/unlock behavior.
 9. Verify newly-unlocked notices name what became available.
 10. Verify locked evidence explains how it opens.
-11. Reach final accusation when feasible.
-12. Check mobile viewport for no horizontal overflow.
+11. Verify progress UI updates after collecting evidence or solving a board rule.
+12. Verify map/location progress counts and next-action cue are visible.
+13. Reach final accusation when feasible.
+14. Check mobile viewport for no horizontal overflow.
 
 ## Early Spoiler Contract
 
@@ -84,6 +86,7 @@ Verify:
 - final locked evidence shows final-gate progress
 - newly available cards are visually marked
 - collecting or solving produces a visible unlock notice
+- collection or solving updates derived progress indicators without needing a separate progress state
 
 Recommended guard script checks:
 
@@ -92,6 +95,27 @@ Recommended guard script checks:
 - a board-rule-unlocked card is named after the rule is solved
 - a final locked card shows prerequisite, board, and final-gate progress
 - no locked-card panel contains hidden `trueMeaning` text
+
+## Progress Feedback Contract
+
+Verify:
+
+- progress indicators are derived from actual game state such as collected evidence, solved board rules, cleared suspects, current phase/view, and available clues
+- the progress rail appears after the case starts
+- collecting one clue changes at least the evidence count or evidence percent
+- solving one board rule changes deduction progress and any newly opened clue/location signal
+- maps or location lists show per-location counts such as `1/5`
+- exactly one strongest next-action cue is visually emphasized when a next clue cluster exists
+- progress UI does not reveal hidden evidence titles, exact board bundles, culprit-only facts, or final answers
+- `prefers-reduced-motion: reduce` preserves progress information while removing nonessential motion
+
+Recommended guard script checks:
+
+- snapshot progress before and after collecting a clue
+- assert the after snapshot changed in the expected meter text or width
+- assert one `next` marker exists when available uncollected clues exist
+- assert locked/final spoilers remain absent from progress text
+- emulate reduced motion or inspect CSS for a reduced-motion override
 
 ## Visual QA
 
@@ -105,6 +129,7 @@ Check:
 - evidence visualizations are visible without excessive scrolling
 - board comparison cues are visible on evidence chips
 - notebook expanded details are readable
+- progress rail, next-action cue, and per-location counters remain readable on desktop and mobile
 
 ## Source Handoff Contract
 

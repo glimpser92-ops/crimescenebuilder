@@ -19,6 +19,8 @@ Good signals:
 - restrained dark investigation shell with warm paper/evidence surfaces
 - theme-matched location imagery
 - clear locked/unlocked/newly-available states
+- derived progress rail with current phase, next action, and percent meters
+- map pins or location cards with per-location progress and `NEXT` cue
 - readable clue details and comparison cues
 
 Avoid:
@@ -31,6 +33,7 @@ Avoid:
 - visual elements that hide actual evidence
 - relying on text-only cards when the case has distinctive places or objects
 - vague locked states that only say "locked" or "more clues needed"
+- decorative motion that moves constantly without reflecting player progress
 
 ## First Screen
 
@@ -83,6 +86,26 @@ Locked condition panels should be compact and scan-friendly:
 
 Do not show hidden evidence titles or final text inside locked placeholders.
 
+## Progress Feedback UI
+
+Make players feel progress without turning the mystery into a checklist.
+
+- Derive every progress indicator from existing game state: collected clues, completed or visited locations, solved board rules, cleared suspects, current view/phase, and available uncollected clues.
+- Do not maintain a parallel `progress` object unless persistence or network sync requires it.
+- Show a compact investigation rail near the top of the play shell: current phase, overall progress, evidence percent, location percent, deduction percent, suspect-clear percent, and one next-action signal.
+- Use phase chips or a spine for `briefing -> scene -> notebook -> interview -> board -> final`; highlight the current phase and mark earned phases.
+- On maps, show per-location counts (`1/5`) and state styling: active, next, available, in progress, complete, locked.
+- Use a `NEXT` badge only for the strongest recommended action. Preserve player choice by keeping other available actions visible.
+- After evidence collection or board success, update the rail, location counts, newly available state, and unlock notice in the same render pass.
+
+## Motion Rules
+
+Use motion as state-change feedback, not as ambient decoration.
+
+- Good motion: a short sweep on a progress bar after percentage changes, a pulse on the current phase or next location, a lift/fade on newly unlocked cards or notices.
+- Avoid constant background animation, large decorative stamps, spinning objects, or layout movement that makes controls feel unstable.
+- Respect `prefers-reduced-motion: reduce`; keep all information visible and reduce animation/transition duration to near-zero.
+
 ## Layout Rules
 
 - Keep card radius at 8px or less unless the existing design system differs.
@@ -103,6 +126,8 @@ Check at desktop and mobile widths:
 - evidence visuals remain readable
 - locked-clue condition panels remain readable
 - newly-unlocked notices are visible without covering primary actions
+- progress rail and percent meters are visible after start and update after collection/deduction
+- map pins or location cards show per-location counts and a single readable next-action cue
 - board cards and side panels do not collapse into unreadable blocks
 - first screen feels case-specific and polished
 

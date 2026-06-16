@@ -48,11 +48,13 @@ Load only what the current task needs:
    - If there is an existing app, upgrade it in place without broad unrelated rewrites.
    - Locked cards must use generic placeholders for hidden titles/sources/bodies, but they must also explain how to open them: missing prerequisite evidence, required board connection progress, final-gate progress, or next location/category.
    - When evidence is collected or a board rule is solved, explicitly show what changed: newly added evidence, newly available investigation points, cleared suspects, and final unlock progress.
+   - Derive progress UI from existing game state instead of storing a separate progress state. Compute progress from collected evidence, visited/cleared locations, solved board rules, cleared suspects, current phase/view, and available-but-uncollected clues.
 
 5. **Upgrade presentation quality**
    - Use `premium-investigation-ui.md`.
    - Aim for a premium investigation file: dossier surfaces, maps, timelines, CCTV/event cards, evidence tags, suspect files, subtle motion, and strong visual hierarchy.
    - Add visualizations for timeline, route, object state, witness contradictions, and clue relationships whenever evidence is text-heavy.
+   - Add a visible investigation progress spine: phase rail, progress meters, next-action signal, and map/location markers that update when the player earns new information.
    - Use theme-matched visual assets for the case, locations, and major evidence clusters. Do not ship a text-only investigation game unless the user explicitly requests one.
 
 6. **Add anti-stuck guidance**

@@ -17,6 +17,9 @@ Use this reference before implementing mechanics or data structures.
 3. **Investigation Hub**
    - Give a clear next investigation area while preserving player choice.
    - Include map, notebook, suspects, contradiction board, and hints.
+   - Show progress as a derived summary, not as separate saved state. Compute it from collected evidence, visited or completed locations, solved links, cleared suspects, current phase/view, and available uncollected clues.
+   - Include a compact progress spine: current phase, evidence collection percent, location completion percent, board-rule progress, suspect-clear progress, and the next useful action.
+   - On maps or location lists, mark the strongest next candidate with a `NEXT`-style badge and show per-location counts such as `1/5`; completed, available, active, and locked locations should read differently at a glance.
    - Avoid making a location card run away from the cursor; hover states must not move clickable targets.
    - Every locked investigation point must explain how it opens without revealing hidden content.
    - When a clue unlocks, show a visible notice that states what changed: evidence added to notebook, new investigation point available, suspect cleared, or final-gate progress.
@@ -66,6 +69,8 @@ Use helpers for:
 - stable card lookup
 - visited/collected state
 - evidence filtering
+- derived investigation summary
+- derived per-location state
 - board rule matching
 - solved-link keying
 - unlock calculation
@@ -125,3 +130,31 @@ Make the game feel playable by a small student group:
 - Use role prompts such as records lead, scene lead, interview lead.
 - Keep hints low-intervention and teacher-friendly.
 - Use clear progress indicators without making the answer feel procedural.
+
+## Derived Progress Pattern
+
+Do not create a second progress store unless the game has persistence requirements that truly need it. Prefer pure helper functions:
+
+```js
+function getLocationState(location, game) {
+  return {
+    found: countCollected(location.evidenceIds, game.collected),
+    total: location.evidenceIds.length,
+    available: countAvailable(location.evidenceIds, game),
+    status: "next" | "available" | "progress" | "complete" | "locked",
+  };
+}
+
+function getInvestigationSummary(game) {
+  return {
+    evidencePercent,
+    locationPercent,
+    boardPercent,
+    suspectPercent,
+    currentPhase,
+    nextAction,
+  };
+}
+```
+
+Use the summary in the hub, map, notebook header, and board rail. After collection or deduction, rerender from source state so the UI changes are automatic and cannot drift from the actual game.
